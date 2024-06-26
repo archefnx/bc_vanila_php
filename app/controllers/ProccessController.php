@@ -5,8 +5,7 @@ use App\Models\Process;
 
 class ProccessController extends BaseController {
     public function index() {
-        $input = file_get_contents('php://input');
-        $params = json_decode($input, true);
+        $params = $this->getJsonInput();
 
         $page = isset($params['page']) ? intval($params['page']) : null;
         $perPage = isset($params['perPage']) ? intval($params['perPage']) : $_ENV['RECORDS_PER_PAGE'];
@@ -18,28 +17,22 @@ class ProccessController extends BaseController {
     }
 
     public function store() {
-        $input = file_get_contents('php://input');
-        $data = json_decode($input, true);
+        $data = $this->getJsonInput();
 
-        if (json_last_error() === JSON_ERROR_NONE) {
-            $process = new Process();
-            $result = $process->create($data);  // Пример, предполагается, что данные передаются методом POST
-            return $this->jsonResponse($result, 201);
-        } else {
-            return $this->jsonResponse(['error' => 'Invalid JSON input'], 400);
-        }
+        $process = new Process();
+        $result = $process.create($data);  // Пример, предполагается, что данные передаются методом POST
+        return $this->jsonResponse($result, 201);
     }
 
     public function destroy() {
-        $input = file_get_contents('php://input');
-        $data = json_decode($input, true);
+        $data = $this->getJsonInput();
 
-        if (json_last_error() === JSON_ERROR_NONE and isset($data['id'])) {
+        if (isset($data['id'])) {
             $process = new Process();
-            $result = $process->destroy($data['id']);
+            $result = $process.destroy($data['id']);
             return $this->jsonResponse($result, 201);
         } else {
-            return $this->jsonResponse(['error' => 'Invalid JSON input'], 400);
+            return $this->jsonResponse(['error' => 'Missing ID'], 400);
         }
     }
 }

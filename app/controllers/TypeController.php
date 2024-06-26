@@ -5,8 +5,7 @@ use App\Models\Type;
 
 class TypeController extends BaseController {
     public function index() {
-        $input = file_get_contents('php://input');
-        $params = json_decode($input, true);
+        $params = $this->getJsonInput();
 
         $page = isset($params['page']) ? intval($params['page']) : null;
         $perPage = isset($params['perPage']) ? intval($params['perPage']) : $_ENV['RECORDS_PER_PAGE'];
@@ -18,8 +17,7 @@ class TypeController extends BaseController {
     }
 
     public function store() {
-        $input = file_get_contents('php://input');
-        $data = json_decode($input, true);
+        $params = $this->getJsonInput();
 
         if (json_last_error() === JSON_ERROR_NONE) {
             $type = new Type();
@@ -31,8 +29,7 @@ class TypeController extends BaseController {
     }
 
     public function destroy() {
-        $input = file_get_contents('php://input');
-        $data = json_decode($input, true);
+        $params = $this->getJsonInput();
 
         if (json_last_error() === JSON_ERROR_NONE and isset($data['id'])) {
             $type = new Type();

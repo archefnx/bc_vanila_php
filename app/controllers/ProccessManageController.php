@@ -11,8 +11,7 @@ class ProccessManageController extends BaseController
 {
     public function addFields()
     {
-        $input = file_get_contents('php://input');
-        $params = json_decode($input, true);
+        $params = $this->getJsonInput();
 
         // Проверка на наличие необходимых параметров
         if (!isset($params['process_name']) || !isset($params['fields'])) {
@@ -72,8 +71,7 @@ class ProccessManageController extends BaseController
 
     public function getFields()
     {
-        $input = file_get_contents('php://input');
-        $params = json_decode($input, true);
+        $params = $this->getJsonInput();
 
         if (!isset($params['process_name'])) {
             return $this->jsonResponse(['error' => 'Invalid input'], 400);

@@ -8,4 +8,13 @@ abstract class BaseController {
         echo json_encode($data);
         exit;
     }
+
+    protected function getJsonInput() {
+        $input = file_get_contents('php://input');
+        $data = json_decode($input, true);
+        if (json_last_error() !== JSON_ERROR_NONE) {
+            $this->jsonResponse(['error' => 'Invalid JSON input'], 400);
+        }
+        return $data;
+    }
 }
