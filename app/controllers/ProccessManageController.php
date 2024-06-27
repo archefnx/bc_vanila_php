@@ -144,12 +144,9 @@ class ProccessManageController extends BaseController
         return $this->jsonResponse([
             'data' => $formattedFields,
             'pagination' => [
-                'current_page' => 1, // статическое значение, так как постраничная навигация не реализована
-                'last_page' => 1, // статическое значение
+                'current_page' => $offset,
                 'per_page' => $pageSize,
                 'total' => count($fields),
-                'next_page_url' => null,
-                'prev_page_url' => null,
             ]
         ]);
     }
